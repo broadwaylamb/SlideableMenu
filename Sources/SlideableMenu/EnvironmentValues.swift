@@ -17,8 +17,8 @@ extension View {
 }
 
 public struct ToggleSlideableMenuAction {
-    let handler: () -> Void
-    func callAsFunction() {
+    internal let handler: () -> Void
+    public func callAsFunction() {
         handler()
     }
 }
