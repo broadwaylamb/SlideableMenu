@@ -34,7 +34,7 @@ public struct SlideableMenuView<Value: Hashable, Rows, SideMenu: View, Content>:
         viewModel.isMenuShown ? slideableMenuWidth : 0
     }
 
-    private func contentOffset(alwaysShowMenu: Bool) -> CGFloat {
+    private func contentOffset() -> CGFloat {
         if isSlideableMenuFixed {
             return slideableMenuWidth
         }
@@ -80,16 +80,15 @@ public struct SlideableMenuView<Value: Hashable, Rows, SideMenu: View, Content>:
         GeometryReader { proxy in
             let isSlideableMenuFixed = self.isSlideableMenuFixed
             let viewportWidth = proxy.size.width
-            let alwaysShowMenu = viewportWidth >= 1024
             let contentWidth = isSlideableMenuFixed
                 ? viewportWidth - slideableMenuWidth
                 : viewportWidth
-            let contentOffset = self.contentOffset(alwaysShowMenu: isSlideableMenuFixed)
+            let contentOffset = self.contentOffset()
             ZStack(alignment: .topLeading) {
                 sideMenu(SlideableMenuItems(items: TupleView(rows)))
                     .environmentObject(viewModel)
                 currentView(
-                    alwaysShowMenu: alwaysShowMenu,
+                    alwaysShowMenu: isSlideableMenuFixed,
                     index: viewModel.currentViewIndex,
                 )
                 .overlay {
@@ -111,12 +110,9 @@ public struct SlideableMenuView<Value: Hashable, Rows, SideMenu: View, Content>:
                      viewModel.isMenuShown.toggle()
                  }
             )
-            .gesture(dragGesture, isEnabled: !alwaysShowMenu)
+            .gesture(dragGesture, isEnabled: !isSlideableMenuFixed)
             .sheet(isPresented: $viewModel.isModallyPresented) {
-                currentView(
-                    alwaysShowMenu: alwaysShowMenu,
-                    index: viewModel.currentModalViewIndex!,
-                )
+                currentView(alwaysShowMenu: isSlideableMenuFixed, index: viewModel.currentModalViewIndex!)
             }
         }
     }
