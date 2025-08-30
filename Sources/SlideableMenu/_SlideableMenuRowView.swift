@@ -1,6 +1,6 @@
 import SwiftUI
 
-public struct _SlideableMenuRowView<Item: SideMenuContent>: View {
+public struct _SlideableMenuRowView<Item: SlideableMenuContent>: View {
     internal let item: Item
 
     @EnvironmentObject private var viewModel: ViewModel<Item.Value>

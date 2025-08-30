@@ -1,7 +1,7 @@
 import SwiftUI
 
 @MainActor
-public protocol SideMenuContent<Value> {
+public protocol SlideableMenuContent<Value> {
     associatedtype Value: Hashable
     associatedtype IdentifiedView: View
     associatedtype Item: View

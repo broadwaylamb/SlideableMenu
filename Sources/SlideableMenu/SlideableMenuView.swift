@@ -8,7 +8,7 @@ public struct SlideableMenuView<Value: Hashable, Rows, SideMenu: View, Content>:
 
     public init(
         selection: Binding<Value>,
-        @SideMenuContentBuilder<Value> _ items: () -> SideMenuContentBuilderResult<Value, Rows, Content>,
+        @SlideableMenuContentBuilder<Value> _ items: () -> SlideableMenuContentBuilder<Value>.Result<Rows, Content>,
         @ViewBuilder sideMenu: @MainActor @escaping (SlideableMenuItems<Rows>) -> SideMenu,
     ) {
         let result = items()
@@ -119,7 +119,7 @@ public struct SlideableMenuView<Value: Hashable, Rows, SideMenu: View, Content>:
 }
 
 @available(iOS 16.0, *)
-private struct TestItem<Value: Hashable>: SideMenuContent {
+private struct TestItem<Value: Hashable>: SlideableMenuContent {
     var value: Value
     var isModal: Bool = false
     var color: Color
