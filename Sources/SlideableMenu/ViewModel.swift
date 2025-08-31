@@ -1,14 +1,16 @@
 import SwiftUI
+import Combine
 
 internal final class ViewModel<Value: Hashable>: ObservableObject {
     internal let indices: [Value : Int]
-    @Published internal var isMenuShown = false
     @Published private(set) internal var currentSelection: Value
     @Binding private var selection: Value
     @Published private(set) internal var currentViewIndex: Int
     @Published private(set) internal var currentModalViewIndex: Int?
 
     private var lastNonModalSelection: Value
+
+    internal let isMenuRevealedPublisher = PassthroughSubject<Bool, Never>()
 
     internal var isModallyPresented: Bool {
         get {
@@ -31,7 +33,7 @@ internal final class ViewModel<Value: Hashable>: ObservableObject {
     }
 
     internal func selectItem(_ newSelection: Value, isModal: Bool) {
-        isMenuShown = false
+        isMenuRevealedPublisher.send(false)
         if isModal {
             lastNonModalSelection = currentSelection
             currentModalViewIndex = indices[newSelection] ?? 0

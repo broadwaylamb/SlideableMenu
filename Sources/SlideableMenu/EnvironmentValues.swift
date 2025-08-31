@@ -3,7 +3,7 @@ import SwiftUI
 extension EnvironmentValues {
     @Entry public var slideableMenuWidth: CGFloat = 276
     @Entry public var isSlideableMenuFixed = false
-    @Entry public var toggleSlideableMenu = ToggleSlideableMenuAction {}
+    @Entry public var revealSlideableMenu = RevealSlideableMenuAction()
 }
 
 extension View {
@@ -16,8 +16,13 @@ extension View {
     }
 }
 
-public struct ToggleSlideableMenuAction {
+public struct RevealSlideableMenuAction {
     internal let handler: () -> Void
+
+    internal init(handler: @escaping () -> Void = {}) {
+        self.handler = handler
+    }
+
     public func callAsFunction() {
         handler()
     }
