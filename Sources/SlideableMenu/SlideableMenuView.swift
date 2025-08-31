@@ -21,6 +21,12 @@ public struct SlideableMenuView<Value: Hashable, Rows, SideMenu: View, Content>:
     private func currentView(index: Int) -> some View {
         ExtractSubviews(from: TupleView(content)) { children in
             children[index]
+                // Without this id() call it crashes on iOS 15 with a VERY obscure error
+                // "AttributeGraph precondition failure: child already attached to new parent."
+                // and not very helpful stack trace.
+                // How did I figure it out? Programming gods whispered it to me or
+                // something, I don't have a better explanation, sorry.
+                .id(index)
         }
     }
 
