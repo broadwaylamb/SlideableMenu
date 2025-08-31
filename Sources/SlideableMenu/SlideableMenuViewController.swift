@@ -107,7 +107,7 @@ internal final class SlideableMenuViewController<Menu: View, Content: View>: UIV
     private var panDelta: CGFloat = 0
 
     private var start: CGFloat {
-        isMenuRevealed ? menuWidth : 0
+        (isMenuRevealed || isMenuFixed) ? menuWidth : 0
     }
 
     private func updateContentPosition() {
